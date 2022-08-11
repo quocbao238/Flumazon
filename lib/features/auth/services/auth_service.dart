@@ -1,3 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'dart:convert';
+
 import 'package:flumazon/constants/error_handling.dart';
 import 'package:flumazon/constants/global_variables.dart';
 import 'package:flumazon/constants/utils.dart';
@@ -58,16 +62,52 @@ class AuthService {
           onSuccess: () async {
             UserModel userModel = UserModel.fromJson(response.body);
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            // ignore: use_build_context_synchronously
             Provider.of<UserProvider>(context, listen: false)
                 .setUser(userModel);
             await prefs.setString('x-auth-token', userModel.token ?? '');
-
-            Navigator.of(context).pushNamedAndRemoveUntil(
-                HomeScreen.routeName, (route) => false);
+            Navigator.pushNamedAndRemoveUntil(
+                context, HomeScreen.routeName, (route) => false);
           });
     } catch (e) {
       showSnackBar(context, e.toString());
+    }
+  }
+
+  void getUserData({
+    required BuildContext context,
+  }) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('x-auth-token');
+      if (token == null) {
+        await prefs.setString('x-auth-token', '');
+      }
+
+      var response = await http.post(
+        Uri.parse('$uri/api/tokenIsValid'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'x-auth-token': token!
+        },
+      );
+
+      bool validToken = jsonDecode(response.body);
+
+      if (validToken) {
+        var userRes = await http.get(
+          Uri.parse('$uri/'),
+          headers: <String, String>{
+            'Content-Type': 'application/json',
+            'x-auth-token': token
+          },
+        );
+
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.setUser(UserModel.fromJson(userRes.body));
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      // showSnackBar(context, e.toString());
     }
   }
 }
