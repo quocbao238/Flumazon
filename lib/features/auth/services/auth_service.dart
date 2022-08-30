@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 
+import 'package:flumazon/common/widgets/tabs_page.dart';
 import 'package:flumazon/constants/error_handling.dart';
 import 'package:flumazon/constants/global_variables.dart';
 import 'package:flumazon/constants/utils.dart';
@@ -66,7 +67,7 @@ class AuthService {
                 .setUser(userModel);
             await prefs.setString('x-auth-token', userModel.token ?? '');
             Navigator.pushNamedAndRemoveUntil(
-                context, HomeScreen.routeName, (route) => false);
+                context, TabsPage.routeName, (route) => false);
           });
     } catch (e) {
       showSnackBar(context, e.toString());

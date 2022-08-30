@@ -1,3 +1,4 @@
+import 'package:flumazon/common/widgets/tabs_page.dart';
 import 'package:flumazon/constants/global_variables.dart';
 import 'package:flumazon/features/auth/screens/auth_screen.dart';
 import 'package:flumazon/features/auth/services/auth_service.dart';
@@ -51,7 +52,7 @@ class _MyAppState extends State<MyApp> {
         ),
         onGenerateRoute: (routeSettings) => generateRoute(routeSettings),
         home: (Provider.of<UserProvider>(context).user.token ?? '').isNotEmpty
-            ? const HomeScreen()
+            ? const TabsPage()
             : const AuthScreen());
   }
 }
