@@ -1,8 +1,8 @@
 import 'package:flumazon/common/widgets/tabs_page.dart';
 import 'package:flumazon/constants/global_variables.dart';
+import 'package:flumazon/features/admin/screens/admin_screen.dart';
 import 'package:flumazon/features/auth/screens/auth_screen.dart';
 import 'package:flumazon/features/auth/services/auth_service.dart';
-import 'package:flumazon/features/home/screens/home_screen.dart';
 import 'package:flumazon/providers/user_provider.dart';
 import 'package:flumazon/routes/router.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +38,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Flumazon',
         theme: ThemeData(
           scaffoldBackgroundColor: GlobalVariables.backgroundColor,
@@ -52,7 +53,9 @@ class _MyAppState extends State<MyApp> {
         ),
         onGenerateRoute: (routeSettings) => generateRoute(routeSettings),
         home: (Provider.of<UserProvider>(context).user.token ?? '').isNotEmpty
-            ? const TabsPage()
+            ? (Provider.of<UserProvider>(context).user.type == 'user')
+                ? const TabsPage()
+                : const AdminScreen()
             : const AuthScreen());
   }
 }

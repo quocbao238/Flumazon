@@ -13,7 +13,6 @@ class AccountAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context).user;
     return AppBar(
-      backgroundColor: Colors.red,
       flexibleSpace: Container(
         decoration: const BoxDecoration(
           gradient: GlobalVariables.appBarGradient,

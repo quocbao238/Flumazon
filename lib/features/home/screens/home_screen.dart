@@ -1,6 +1,9 @@
-import 'package:flumazon/providers/user_provider.dart';
+import 'package:flumazon/features/home/widgets/address_book.dart';
+import 'package:flumazon/features/home/widgets/carousel_image.dart';
+import 'package:flumazon/features/home/widgets/categories.dart';
+import 'package:flumazon/features/home/widgets/deal_of_day.dart';
+import 'package:flumazon/features/home/widgets/home_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/homeScreen';
@@ -14,11 +17,24 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
-
     return Scaffold(
-      body: Center(
-        child: Text(user.toJson()),
+      appBar: const HomeAppBar(),
+      body: Column(
+        children: [
+          const HomeAddressBoxWidget(),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: const [
+                  HomeTopCategoriesWidget(),
+                  HomeCarouselImageWidget(),
+                  HomeDealOfDayWidget(),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

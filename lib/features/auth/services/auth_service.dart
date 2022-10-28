@@ -6,7 +6,6 @@ import 'package:flumazon/common/widgets/tabs_page.dart';
 import 'package:flumazon/constants/error_handling.dart';
 import 'package:flumazon/constants/global_variables.dart';
 import 'package:flumazon/constants/utils.dart';
-import 'package:flumazon/features/home/screens/home_screen.dart';
 import 'package:flumazon/models/user_model.dart';
 import 'package:flumazon/providers/user_provider.dart';
 import 'package:flutter/material.dart';
