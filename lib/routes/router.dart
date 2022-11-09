@@ -1,4 +1,5 @@
 import 'package:flumazon/common/widgets/tabs_page.dart';
+import 'package:flumazon/features/admin/screens/add_product_screen.dart';
 import 'package:flumazon/features/auth/screens/auth_screen.dart';
 import 'package:flumazon/features/home/screens/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,9 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case TabsPage.routeName:
       return MaterialPageRoute(
           settings: routeSettings, builder: (_) => const TabsPage());
+    case AddProductScreen.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings, builder: (_) => const AddProductScreen());
     default:
       return MaterialPageRoute(
           settings: routeSettings,

@@ -1,9 +1,6 @@
-import 'package:badges/badges.dart';
 import 'package:flumazon/constants/global_variables.dart';
-import 'package:flumazon/features/account/screens/account_screen.dart';
-import 'package:flumazon/features/account/widgets/account_appbar.dart';
-import 'package:flumazon/features/admin/widgets/account_appbar.dart';
-import 'package:flumazon/features/home/screens/home_screen.dart';
+import 'package:flumazon/features/admin/screens/posts_screen.dart';
+import 'package:flumazon/features/admin/widgets/admin_appbar.dart';
 import 'package:flutter/material.dart';
 
 class AdminScreen extends StatefulWidget {
@@ -19,7 +16,7 @@ class _AdminScreenState extends State<AdminScreen> {
   final _bottomBarBorderWidth = 5.0;
 
   List<Widget> pages = [
-    const Text('Posts Page'),
+    const PostScreen(),
     const Text('Analytics Page'),
     const Text('Cart Page'),
   ];
@@ -33,6 +30,7 @@ class _AdminScreenState extends State<AdminScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const AdminAppBar(),
+      body: pages[_pageIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _pageIndex,
         selectedItemColor: GlobalVariables.selectedNavBarColor,

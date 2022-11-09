@@ -1,7 +1,5 @@
 import 'package:flumazon/constants/global_variables.dart';
-import 'package:flumazon/providers/user_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class AdminAppBar extends StatelessWidget with PreferredSizeWidget {
   const AdminAppBar({Key? key}) : super(key: key);
@@ -11,7 +9,6 @@ class AdminAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context).user;
     return AppBar(
       flexibleSpace: Container(
         decoration: const BoxDecoration(
