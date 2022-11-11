@@ -6,6 +6,7 @@ import 'package:flumazon/common/widgets/custom_button.dart';
 import 'package:flumazon/common/widgets/custom_textfield.dart';
 import 'package:flumazon/constants/global_variables.dart';
 import 'package:flumazon/constants/utils.dart';
+import 'package:flumazon/features/admin/services/admin_service.dart';
 import 'package:flutter/material.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -21,12 +22,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
-
-  // final List<String> productCategories = GlobalVariables.categoryImages.asMap().entries.
-
   String categorySelect = GlobalVariables.categoryImages.first['title'] ?? '';
   List<String> productCategories = [];
   List<File> images = [];
+
+  final AdminService adminService = AdminService();
+
+  final _addProductFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -60,6 +62,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
           child: Form(
+            key: _addProductFormKey,
             child: Column(
               children: [
                 images.isEmpty
@@ -175,5 +178,19 @@ class _AddProductScreenState extends State<AddProductScreen> {
     setState(() {
       images = res;
     });
+  }
+
+  void sellProduct() {
+    if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
+      adminService.sellProduct(
+          context: context,
+          name: productNameController.text,
+          description: descriptionController.text,
+          quantity: double.tryParse(quantityController.text) ?? 0.0,
+          price: double.tryParse(quantityController.text) ?? 0.0,
+          category: categorySelect,
+          images: images);
+    }
+    // adminService.sellProduct(context: context, name: name, description: description, quantity: quantity, price: price, category: category, images: images)
   }
 }
