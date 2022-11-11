@@ -1,7 +1,11 @@
+import 'dart:io';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flumazon/common/widgets/custom_button.dart';
 import 'package:flumazon/common/widgets/custom_textfield.dart';
 import 'package:flumazon/constants/global_variables.dart';
+import 'package:flumazon/constants/utils.dart';
 import 'package:flutter/material.dart';
 
 class AddProductScreen extends StatefulWidget {
@@ -22,6 +26,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   String categorySelect = GlobalVariables.categoryImages.first['title'] ?? '';
   List<String> productCategories = [];
+  List<File> images = [];
 
   @override
   void initState() {
@@ -42,54 +47,73 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: GlobalVariables.appBarGradient,
-            ),
+      appBar: AppBar(
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: GlobalVariables.appBarGradient,
           ),
-          centerTitle: true,
-          title: const Text('Add Product'),
         ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
-            child: Form(
-                child: Column(
+        centerTitle: true,
+        title: const Text('Add Product'),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20),
+          child: Form(
+            child: Column(
               children: [
-                DottedBorder(
-                  color: Colors.black,
-                  strokeWidth: 2,
-                  borderType: BorderType.RRect,
-                  radius: const Radius.circular(10),
-                  dashPattern: const [10, 4],
-                  child: Container(
-                    width: double.infinity,
-                    height: 150,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.folder_open,
-                          size: 40,
-                          color: Colors.grey.shade600,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16.0),
-                          child: Text(
-                            'Select Product Image',
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey.shade400),
+                images.isEmpty
+                    ? GestureDetector(
+                        onTap: () => _onSelectImages(),
+                        child: DottedBorder(
+                          color: Colors.black,
+                          strokeWidth: 2,
+                          borderType: BorderType.RRect,
+                          radius: const Radius.circular(10),
+                          dashPattern: const [10, 4],
+                          child: Container(
+                            width: double.infinity,
+                            height: 150,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.folder_open,
+                                  size: 40,
+                                  color: Colors.grey.shade600,
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 16.0),
+                                  child: Text(
+                                    'Select Product Image',
+                                    style: TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.grey.shade400),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                ),
+                      )
+                    : CarouselSlider(
+                        options: CarouselOptions(
+                          viewportFraction: 1,
+                          height: 200,
+                          autoPlay: true,
+                        ),
+                        items: images
+                            .map((e) => Image.file(
+                                  e,
+                                  fit: BoxFit.cover,
+                                  height: 200,
+                                ))
+                            .toList(),
+                      ),
                 Padding(
                   padding: const EdgeInsets.only(top: 24.0),
                   child: CustomTextField(
@@ -135,11 +159,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       }).toList()),
                 ),
                 Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: CustomButton(title: 'Sell', onTap: () {}))
+                  padding: const EdgeInsets.only(top: 16.0),
+                  child: CustomButton(title: 'Sell', onTap: () {}),
+                ),
               ],
-            )),
+            ),
           ),
-        ));
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onSelectImages() async {
+    var res = await picksImages();
+    setState(() {
+      images = res;
+    });
   }
 }
