@@ -8,6 +8,7 @@ const adminRouter = require('./routes/admin');
 
 // Imports from other file
 const authRouter = require("./routes/auth");
+const productRouter = require('./routes/product');
 
 
 // Init
@@ -19,6 +20,7 @@ const DB = 'mongodb+srv://baobui:bao123@cluster0.f4ig0xr.mongodb.net/?retryWrite
 app.use(express.json());
 app.use(authRouter);
 app.use(adminRouter);
+app.use(productRouter);
 
 
 

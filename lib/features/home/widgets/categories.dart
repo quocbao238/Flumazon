@@ -1,4 +1,5 @@
 import 'package:flumazon/constants/global_variables.dart';
+import 'package:flumazon/features/home/screens/category_deals_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeTopCategoriesWidget extends StatelessWidget {
@@ -16,32 +17,42 @@ class HomeTopCategoriesWidget extends StatelessWidget {
           itemExtent: 85,
           itemBuilder: ((context, index) {
             final itemCategory = GlobalVariables.categoryImages[index];
-            return Column(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(60),
-                    child: Image.asset(
-                      itemCategory['image']!,
-                      fit: BoxFit.cover,
-                      width: 40,
-                      height: 40,
+            return GestureDetector(
+              onTap: () => _navigateToCategoryPage(
+                  category: itemCategory['title'] ?? '', context: context),
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(60),
+                      child: Image.asset(
+                        itemCategory['image']!,
+                        fit: BoxFit.cover,
+                        width: 40,
+                        height: 40,
+                      ),
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 4),
-                  child: Text(
-                    itemCategory['title']!,
-                    style: const TextStyle(fontSize: 12),
-                  ),
-                )
-              ],
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      itemCategory['title']!,
+                      style: const TextStyle(fontSize: 12),
+                    ),
+                  )
+                ],
+              ),
             );
           }),
         ),
       ),
     );
+  }
+
+  void _navigateToCategoryPage(
+      {required String category, required BuildContext context}) {
+    Navigator.pushNamed(context, CategoryDealsScreen.routeName,
+        arguments: category);
   }
 }
