@@ -3,6 +3,7 @@ import 'package:flumazon/features/admin/screens/add_product_screen.dart';
 import 'package:flumazon/features/auth/screens/auth_screen.dart';
 import 'package:flumazon/features/home/screens/category_deals_screen.dart';
 import 'package:flumazon/features/home/screens/home_screen.dart';
+import 'package:flumazon/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -20,6 +21,12 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case AddProductScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings, builder: (_) => const AddProductScreen());
+    case SearchScreen.routeName:
+      return MaterialPageRoute(
+          settings: routeSettings,
+          builder: (_) => SearchScreen(
+                searchQuery: routeSettings.arguments as String,
+              ));
     case CategoryDealsScreen.routeName:
       return MaterialPageRoute(
           settings: routeSettings,

@@ -2,8 +2,8 @@ import 'package:flumazon/providers/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class HomeAddressBoxWidget extends StatelessWidget {
-  const HomeAddressBoxWidget({Key? key}) : super(key: key);
+class AddressBoxWidget extends StatelessWidget {
+  const AddressBoxWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

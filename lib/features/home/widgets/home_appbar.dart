@@ -1,4 +1,5 @@
 import 'package:flumazon/constants/global_variables.dart';
+import 'package:flumazon/features/search/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
@@ -25,6 +26,8 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: TextFormField(
+                  onFieldSubmitted: (query) =>
+                      _navigateToSearchScreen(context, query),
                   decoration: const InputDecoration(
                       prefixIcon: Icon(
                         Icons.search,
@@ -55,5 +58,9 @@ class HomeAppBar extends StatelessWidget with PreferredSizeWidget {
         ],
       ),
     );
+  }
+
+  void _navigateToSearchScreen(BuildContext context, String query) {
+    Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
 }

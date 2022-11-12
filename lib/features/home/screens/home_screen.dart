@@ -21,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: const HomeAppBar(),
       body: Column(
         children: [
-          const HomeAddressBoxWidget(),
+          const AddressBoxWidget(),
           Expanded(
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
