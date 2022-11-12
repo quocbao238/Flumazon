@@ -12,15 +12,15 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class AdminService {
-  void sellProduct({
-    required BuildContext context,
-    required String name,
-    required String description,
-    required double quantity,
-    required double price,
-    required String category,
-    required List<File> images,
-  }) async {
+  void sellProduct(
+      {required BuildContext context,
+      required String name,
+      required String description,
+      required double quantity,
+      required double price,
+      required String category,
+      required List<File> images,
+      required VoidCallback onSuccess}) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
       final cloudinary = CloudinaryPublic('dwfhfgzus', 'n7mtrg2d');
@@ -41,19 +41,21 @@ class AdminService {
           price: price,
           quantity: quantity);
 
-      var response = await http.post(Uri.parse('$uri/admin/add-product'),
-          headers: <String, String>{
-            'Content-Type': 'application/json',
-            'x-auth-token': userProvider.user.token ?? ''
-          },
-          body: product.toJson());
+      var response = await http.post(
+        Uri.parse('$uri/admin/add-product'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'x-auth-token': userProvider.user.token ?? ''
+        },
+        body: product.toJson(),
+      );
 
       httpErrorHandle(
           response: response,
           context: context,
           onSuccess: () {
             showSnackBar(context, 'Product Added Successfully!');
-            Navigator.pop(context);
+            onSuccess();
           });
     } catch (e) {
       showSnackBar(context, e.toString());
@@ -67,11 +69,13 @@ class AdminService {
     List<ProductModel> productList = [];
 
     try {
-      var response = await http
-          .get(Uri.parse('$uri/admin/get-products'), headers: <String, String>{
-        'Content-Type': 'application/json',
-        'x-auth-token': userProvider.user.token ?? ''
-      });
+      var response = await http.get(
+        Uri.parse('$uri/admin/get-products'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'x-auth-token': userProvider.user.token ?? ''
+        },
+      );
 
       httpErrorHandle(
           response: response,
@@ -86,5 +90,32 @@ class AdminService {
     }
 
     return productList;
+  }
+
+  Future deleteProduct(
+      {required BuildContext context,
+      required ProductModel product,
+      required onSuccess}) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    try {
+      String path = '$uri/admin/delete-product';
+      var response = await http.post(
+        Uri.parse(path),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'x-auth-token': userProvider.user.token ?? ''
+        },
+        body: jsonEncode({'id': product.id}),
+      );
+      httpErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () {
+            showSnackBar(context, 'Product Delete Successfully!');
+            onSuccess();
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
   }
 }
