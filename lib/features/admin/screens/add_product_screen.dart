@@ -163,7 +163,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 16.0),
-                  child: CustomButton(title: 'Sell', onTap: () {}),
+                  child:
+                      CustomButton(title: 'Sell', onTap: () => sellProduct()),
                 ),
               ],
             ),
@@ -191,6 +192,5 @@ class _AddProductScreenState extends State<AddProductScreen> {
           category: categorySelect,
           images: images);
     }
-    // adminService.sellProduct(context: context, name: name, description: description, quantity: quantity, price: price, category: category, images: images)
   }
 }

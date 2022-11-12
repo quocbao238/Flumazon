@@ -2,7 +2,8 @@
 // Imports from packages
 const express = require('express');
 const { default: mongoose } = require('mongoose');
-const mogoose = require('mongoose')
+const mogoose = require('mongoose');
+const adminRouter = require('./routes/admin');
 
 
 // Imports from other file
@@ -17,6 +18,7 @@ const DB = 'mongodb+srv://baobui:bao123@cluster0.f4ig0xr.mongodb.net/?retryWrite
 //middleware
 app.use(express.json());
 app.use(authRouter);
+app.use(adminRouter);
 
 
 

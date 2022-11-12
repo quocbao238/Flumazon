@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:cloudinary_public/cloudinary_public.dart';
@@ -57,5 +58,33 @@ class AdminService {
     } catch (e) {
       showSnackBar(context, e.toString());
     }
+  }
+
+  // get all product
+
+  Future<List<ProductModel>> fetchAllProducts(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<ProductModel> productList = [];
+
+    try {
+      var response = await http
+          .get(Uri.parse('$uri/admin/get-products'), headers: <String, String>{
+        'Content-Type': 'application/json',
+        'x-auth-token': userProvider.user.token ?? ''
+      });
+
+      httpErrorHandle(
+          response: response,
+          context: context,
+          onSuccess: () {
+            productList = jsonDecode(response.body).map<ProductModel>((e) {
+              return ProductModel.fromMap(e);
+            }).toList();
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+
+    return productList;
   }
 }
