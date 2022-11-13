@@ -1,4 +1,5 @@
-const mogoose = require('mongoose')
+const mogoose = require('mongoose');
+const ratingSchema = require('./rating');
 
 const productSchema = mogoose.Schema({
     name: {
@@ -30,6 +31,7 @@ const productSchema = mogoose.Schema({
         required: true,
     },
     // Ratings
+    ratings: [ratingSchema]
 });
 
 const Product = mogoose.model('Product',productSchema);

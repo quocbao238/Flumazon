@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flumazon/models/rating.dart';
+
 class ProductModel {
   final String name;
   final String description;
@@ -8,16 +10,17 @@ class ProductModel {
   final String category;
   final double price;
   final String? id;
+  final List<Rating>? ratings;
 
-  ProductModel({
-    required this.name,
-    required this.description,
-    required this.quantity,
-    required this.images,
-    required this.category,
-    required this.price,
-    this.id,
-  });
+  ProductModel(
+      {required this.name,
+      required this.description,
+      required this.quantity,
+      required this.images,
+      required this.category,
+      required this.price,
+      this.id,
+      this.ratings});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -28,19 +31,22 @@ class ProductModel {
       'category': category,
       'price': price,
       '_id': id,
+      'ratings': ratings
     };
   }
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
-      name: map['name'] ?? '',
-      description: map['description'] ?? '',
-      quantity: map['quantity']?.toDouble() ?? 0.0,
-      images: List<String>.from((map['images'])),
-      category: map['category'] ?? '',
-      price: map['price']?.toDouble() ?? 0.0,
-      id: map['_id'],
-    );
+        name: map['name'] ?? '',
+        description: map['description'] ?? '',
+        quantity: map['quantity']?.toDouble() ?? 0.0,
+        images: List<String>.from((map['images'])),
+        category: map['category'] ?? '',
+        price: map['price']?.toDouble() ?? 0.0,
+        id: map['_id'],
+        ratings: map['ratings'] != null
+            ? List<Rating>.from(map['ratings']?.map((x) => Rating.fromMap(x)))
+            : null);
   }
 
   String toJson() => json.encode(toMap());

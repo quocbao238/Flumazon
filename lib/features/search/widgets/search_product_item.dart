@@ -11,6 +11,18 @@ class SearchProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double avgRating = 0.0;
+    if (productModel.ratings != null) {
+      double totalRating = 0.0;
+      for (int i = 0; i < productModel.ratings!.length; i++) {
+        totalRating += productModel.ratings![i].rating;
+      }
+
+      if (totalRating != 0) {
+        avgRating = totalRating / productModel.ratings!.length;
+      }
+    }
+
     return GestureDetector(
       onTap: () {
         Navigator.pushNamed(context, ProductDetailsScreen.routeName,
@@ -56,8 +68,8 @@ class SearchProductItem extends StatelessWidget {
                           style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.w500),
                         ),
-                        const RattingStars(
-                          rating: 4,
+                        RattingStars(
+                          rating: avgRating,
                         ),
                         Text(
                           '\$${productModel.price}',
