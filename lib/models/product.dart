@@ -22,6 +22,8 @@ class ProductModel {
       this.id,
       this.ratings});
 
+  
+
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,

@@ -40,13 +40,6 @@ productRouter.post('/api/products/rating',auth, async (req, res) => {
         let product = await Product.findById(id);
 
         console.log(product.toJSON);
-        // for(var _rating in product.ratings){
-        //     const _index = product.ratings.indexOf(_rating);
-        //     if(_rating.userId == req.user){
-        //         product.rating.splice(_index,1);
-        //         break;
-        //     }
-        // }
 
         for(let i = 0 ; i < product.ratings.length; i ++){
             if(product.ratings[i].userId == req.user){
@@ -67,5 +60,35 @@ productRouter.post('/api/products/rating',auth, async (req, res) => {
         res.status(500,json({error:error.message}));
     }
 });
+
+
+
+// Cart Page
+productRouter.get('/api/deal-of-day',auth, async (req, res) => {
+    try {   
+        let products = await Product.find({});
+
+        products = products.sort((a,b) => {
+            let aSum = 0;
+            let bSum =0;
+            
+            if(a.ratings != null && a.ratings.length > 0)
+            for(let i =0; i< a.ratings.length; i++){
+                aSum += a.ratings[i].rating;
+            }
+            if(b.ratings != null && b.ratings.length > 0)
+            for(let i =0; i< b.ratings.length; i++){
+                bSum += b.ratings[i].rating;
+            }
+            return aSum < bSum ? 1: -1;
+        });
+
+        res.json(products[0]);
+    } catch (error) {
+        res.status(500,json({error:error.message}));
+    }
+});
+
+
 
 module.exports = productRouter;
