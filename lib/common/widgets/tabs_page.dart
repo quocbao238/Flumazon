@@ -1,6 +1,7 @@
 import 'package:badges/badges.dart';
 import 'package:flumazon/constants/global_variables.dart';
 import 'package:flumazon/features/account/screens/account_screen.dart';
+import 'package:flumazon/features/cart/screens/cart_screen.dart';
 import 'package:flumazon/features/home/screens/home_screen.dart';
 import 'package:flumazon/providers/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -19,12 +20,10 @@ class _TabsPageState extends State<TabsPage> {
   final _bottomBarWidth = 42.0;
   final _bottomBarBorderWidth = 5.0;
 
-  List<Widget> pages = [
-    const HomeScreen(),
-    const AccountScreen(),
-    const Center(
-      child: Text('Cart Page'),
-    ),
+  List<Widget> pages = const [
+    HomeScreen(),
+    AccountScreen(),
+    CartScreen(),
   ];
 
   void onUpdatePage(int newIndex) {

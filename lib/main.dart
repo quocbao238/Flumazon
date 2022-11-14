@@ -8,7 +8,6 @@ import 'package:flumazon/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-
 // 7.20
 
 void main() {
@@ -40,6 +39,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context, listen: true).user;
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flumazon',
@@ -55,8 +55,8 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
         onGenerateRoute: (routeSettings) => generateRoute(routeSettings),
-        home: (Provider.of<UserProvider>(context).user.token ?? '').isNotEmpty
-            ? (Provider.of<UserProvider>(context).user.type == 'user')
+        home: (user.token ?? '').isNotEmpty
+            ? (user.type == 'user')
                 ? const TabsPage()
                 : const AdminScreen()
             : const AuthScreen());

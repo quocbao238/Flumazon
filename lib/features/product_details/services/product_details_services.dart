@@ -55,7 +55,8 @@ class ProductDetailsServices {
           response: response,
           context: context,
           onSuccess: () {
-            final user = UserModel.fromMap(jsonDecode(response.body));
+            final newCart = UserModel.fromMap(jsonDecode(response.body)).cart;
+            final user = userProvider.user.copyWith(cart: newCart);
             userProvider.setUser(user);
           });
     } catch (e) {
