@@ -36,4 +36,4 @@ const productSchema = mogoose.Schema({
 
 const Product = mogoose.model('Product',productSchema);
 
-module.exports = Product;
+module.exports = {Product, productSchema};

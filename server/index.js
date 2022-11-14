@@ -3,12 +3,13 @@
 const express = require('express');
 const { default: mongoose } = require('mongoose');
 const mogoose = require('mongoose');
+
+
 const adminRouter = require('./routes/admin');
-
-
 // Imports from other file
 const authRouter = require("./routes/auth");
 const productRouter = require('./routes/product');
+const userRouter = require('./routes/user');
 
 
 // Init
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use(authRouter);
 app.use(adminRouter);
 app.use(productRouter);
+app.use(userRouter);
 
 
 
