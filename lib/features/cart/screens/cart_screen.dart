@@ -31,6 +31,10 @@ class _CartScreenState extends State<CartScreen> {
     cartServices.removeFromCart(context: context, product: product);
   }
 
+  void deleteProductFromCart(ProductModel product) {
+    cartServices.deleteFromCart(context: context, product: product);
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = context.watch<UserProvider>().user;
@@ -66,6 +70,8 @@ class _CartScreenState extends State<CartScreen> {
                     final cartProduct = listCardProduct[index];
                     return CartProduct(
                         cartModel: cartProduct,
+                        onPressedDelete: () =>
+                            deleteProductFromCart(cartProduct.product!),
                         onPressedDecreaseQuantity: () =>
                             decreaseQuantity(cartProduct.product!),
                         onPressedIncreaseQuantity: () =>

@@ -5,7 +5,7 @@ const { Product } = require('../models/product');
 const User = require('../models/user');
 
 
-// Add Product
+// Add Product to Cart
 userRouter.post('/api/add-to-cart',auth, async (req, res) => {
 
     try {
@@ -51,7 +51,7 @@ userRouter.post('/api/add-to-cart',auth, async (req, res) => {
 
 
 
-// Add Product
+// Remove Product From Cart
 userRouter.delete('/api/remove-from-cart/:id',auth, async (req, res) => {
 
     try {
@@ -70,6 +70,27 @@ userRouter.delete('/api/remove-from-cart/:id',auth, async (req, res) => {
             }
         }
         
+     user = await user.save();
+     res.json(user);
+    } catch (error) {
+        res.status(500,json({error:error.message}));
+    }
+});
+
+// Delete Product From Cart
+userRouter.delete('/api/delete-from-cart/:id',auth, async (req, res) => {
+
+    try {
+     const {id} = req.params;
+     const product = await Product.findById(id);
+     let user = await User.findById(req.user);
+
+        for(let i =0 ; i<user.cart.length; i++){
+            const _productId = user.cart[i].product._id.toString();
+            if(_productId == product._id){
+                user.cart.splice(i,1);
+            }
+        }
      user = await user.save();
      res.json(user);
     } catch (error) {

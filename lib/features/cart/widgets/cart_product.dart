@@ -5,11 +5,13 @@ class CartProduct extends StatelessWidget {
   final CartModel cartModel;
   final VoidCallback? onPressedIncreaseQuantity;
   final VoidCallback? onPressedDecreaseQuantity;
+  final VoidCallback? onPressedDelete;
   const CartProduct(
       {Key? key,
       required this.cartModel,
       this.onPressedIncreaseQuantity,
-      this.onPressedDecreaseQuantity})
+      this.onPressedDecreaseQuantity,
+      this.onPressedDelete})
       : super(key: key);
 
   @override
@@ -94,7 +96,7 @@ class CartProduct extends StatelessWidget {
                         ),
                         const Spacer(),
                         GestureDetector(
-                          onTap: () => onPressedDecreaseQuantity?.call(),
+                          onTap: () => onPressedDelete?.call(),
                           child: Container(
                             width: 24,
                             height: 24,
