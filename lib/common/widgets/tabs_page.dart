@@ -2,7 +2,9 @@ import 'package:badges/badges.dart';
 import 'package:flumazon/constants/global_variables.dart';
 import 'package:flumazon/features/account/screens/account_screen.dart';
 import 'package:flumazon/features/home/screens/home_screen.dart';
+import 'package:flumazon/providers/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TabsPage extends StatefulWidget {
   static const routeName = '/tabsPage';
@@ -32,6 +34,8 @@ class _TabsPageState extends State<TabsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final cartLength = context.watch<UserProvider>().user.cart?.length ?? 0;
+
     return Scaffold(
       body: pages[_pageIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -89,9 +93,9 @@ class _TabsPageState extends State<TabsPage> {
                   ),
                 ),
                 child: Badge(
-                    elevation: 8,
-                    badgeContent: const Text('2'),
-                    badgeColor: Colors.red,
+                    elevation: 0,
+                    badgeContent: Text(cartLength.toString()),
+                    badgeColor: Colors.white,
                     child: const Icon(Icons.shopping_cart_outlined)),
               ),
               label: '')

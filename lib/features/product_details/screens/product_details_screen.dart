@@ -174,7 +174,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: CustomButton(
                   title: 'Add to Cart',
                   color: const Color.fromRGBO(254, 216, 19, 1),
-                  onTap: () {}),
+                  onTap: () => addToCart(context: context)),
             ),
             Divider(
               height: 4,
@@ -186,7 +186,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   initialRating: myRaing,
                   itemBuilder: (context, _) =>
                       const Icon(Icons.star, color: Colors.amber),
-                  onRatingUpdate: (rating) => onRating(rating: rating)),
+                  onRatingUpdate: (rating) =>
+                      onRating(context: context, rating: rating)),
             )
           ],
         ),
@@ -194,8 +195,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     );
   }
 
-  Future<void> onRating({required double rating}) async {
+  Future<void> onRating(
+      {required BuildContext context, required double rating}) async {
     await productDetailsServices.rateProduct(
         context: context, product: widget.product, rating: rating);
+  }
+
+  Future<void> addToCart({required BuildContext context}) async {
+    await productDetailsServices.addToCart(
+        context: context, product: widget.product);
   }
 }
