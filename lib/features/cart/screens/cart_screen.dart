@@ -1,4 +1,5 @@
 import 'package:flumazon/common/widgets/custom_button.dart';
+import 'package:flumazon/features/address/screens/address_screen.dart';
 import 'package:flumazon/features/cart/services/cart_services.dart';
 import 'package:flumazon/features/cart/widgets/cart_product.dart';
 import 'package:flumazon/features/cart/widgets/cart_sub_total.dart';
@@ -35,10 +36,28 @@ class _CartScreenState extends State<CartScreen> {
     cartServices.deleteFromCart(context: context, product: product);
   }
 
+  void _navigateToAddressScreen(String totalAmount) {
+    Navigator.pushNamed(context, AddressScreen.routeName,
+        arguments: totalAmount);
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = context.watch<UserProvider>().user;
     final listCardProduct = user.cart ?? [];
+
+    String calculateSubTotal() {
+      double subTotal = 0;
+      if (user.cart != null) {
+        user.cart!
+            .map((e) => subTotal +=
+                (e.quantity!.toDouble() * (e.product?.price ?? 0.0)))
+            .toList();
+      }
+      return '\$$subTotal';
+    }
+
+    final subTotal = calculateSubTotal();
 
     return Scaffold(
       appBar: const SearchAppBar(),
@@ -46,13 +65,13 @@ class _CartScreenState extends State<CartScreen> {
         child: Column(
           children: [
             const AddressBoxWidget(),
-            const CartSubTotal(),
+            CartSubTotal(subTotal: subTotal),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: CustomButton(
                   color: Colors.yellow[600],
                   title: 'Proceed to Buy (${user.cart?.length ?? 0})',
-                  onTap: () {}),
+                  onTap: () => _navigateToAddressScreen(subTotal)),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

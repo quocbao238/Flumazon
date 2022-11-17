@@ -49,7 +49,7 @@ class SearchProductItem extends StatelessWidget {
                       child: Center(
                         child: Image.network(
                           productModel.images[0],
-                          fit: BoxFit.fitHeight,
+                          fit: BoxFit.fitWidth,
                           width: MediaQuery.of(context).size.shortestSide / 4,
                           height: double.infinity,
                         ),

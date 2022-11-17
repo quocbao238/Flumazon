@@ -7,6 +7,7 @@ import 'package:flumazon/providers/user_provider.dart';
 import 'package:flumazon/routes/router.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 // 9.02
 
@@ -42,6 +43,15 @@ class _MyAppState extends State<MyApp> {
     final user = Provider.of<UserProvider>(context, listen: true).user;
     return MaterialApp(
         debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en', ''),
+          Locale('es', ''),
+          Locale('de', ''),
+        ],
         title: 'Flumazon',
         theme: ThemeData(
           scaffoldBackgroundColor: GlobalVariables.backgroundColor,
